@@ -58,8 +58,10 @@ def remove_slide(slide, unsed_slides):
 		unsed_slides.remove(slide)
 	else:
 		for sl in unsed_slides:
-			if sl is slide:
-				unsed_slides.remove(sl)
+			if sl['isHorizontal'] == False:
+				if (slide['elems'][0] in sl['elems'] or
+					slide['elems'][1] in sl['elems']):
+					unsed_slides.remove(sl)
 
 def get_id(slide):
 	if slide['isHorizontal']:
@@ -75,10 +77,10 @@ def print_result(result):
 		else:
 			print(ids)
 
-horizontal, vertical = read_input('a.txt')
+horizontal, vertical = read_input('b.txt')
 pairs = generate_pairs(vertical)
-unsed_slides = horizontal
-unsed_slides.extend(pairs)
+unsed_slides = pairs
+unsed_slides.extend(horizontal)
 
 result = []
 left_slide = unsed_slides[0]
@@ -99,5 +101,6 @@ while len(unsed_slides) > 0:
 		remove_slide(rs, unsed_slides)
 		result.append(get_id(rs))
 		right_slide = rs
+	# print(len(unsed_slides))
 		
 print_result(result)
